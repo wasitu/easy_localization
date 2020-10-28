@@ -213,15 +213,19 @@ class _EasyLocalizationState extends State<EasyLocalization> {
           if (snapshot.connectionState == ConnectionState.waiting &&
               !snapshot.hasData &&
               !snapshot.hasError) {
-            returnWidget = widget.preloaderWidget;
+            returnWidget =
+                Container(key: ValueKey<int>(0), child: widget.preloaderWidget);
           } else if (snapshot.hasData && !snapshot.hasError) {
-            returnWidget = _EasyLocalizationProvider(
-              widget,
-              snapshot.data.locale,
-              bloc: bloc,
-              delegate: _EasyLocalizationDelegate(
-                translations: snapshot.data.translations,
-                supportedLocales: widget.supportedLocales,
+            returnWidget = Container(
+              key: ValueKey<int>(1),
+              child: _EasyLocalizationProvider(
+                widget,
+                snapshot.data.locale,
+                bloc: bloc,
+                delegate: _EasyLocalizationDelegate(
+                  translations: snapshot.data.translations,
+                  supportedLocales: widget.supportedLocales,
+                ),
               ),
             );
           } else if (snapshot.hasError) {
@@ -233,7 +237,10 @@ class _EasyLocalizationState extends State<EasyLocalization> {
                     msg: snapshot.error,
                   );
           }
-          return returnWidget;
+          return AnimatedSwitcher(
+            duration: Duration(milliseconds: 800),
+            child: returnWidget,
+          );
         },
       ),
     );
