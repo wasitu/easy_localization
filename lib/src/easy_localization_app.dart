@@ -238,7 +238,7 @@ class _EasyLocalizationState extends State<EasyLocalization> {
                   );
           }
           return AnimatedSwitcher(
-            duration: Duration(milliseconds: 800),
+            duration: Duration(milliseconds: 400),
             child: returnWidget,
           );
         },
